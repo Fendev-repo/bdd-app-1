@@ -31,6 +31,10 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
+  config.include Warden::Test::Helpers
+  config.include Devise::TestHelpers, :type => :controller
+  config.include ControllerHelpers, :type => :controller
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -66,5 +70,14 @@ RSpec.configure do |config|
       with.library :action_controller
       with.library :rails
     end
+  end
+end
+
+module ControllerHelpers
+  def log_in(user)
+    warden = request.env['warden']
+
+    allow(warden).to receive(:authenticate!).and_return(user)
+    allow(controller).to receive(:current_user).and_return(user)
   end
 end

@@ -45,6 +45,7 @@ group :development, :test do
     git: 'https://github.com/thoughtbot/shoulda-matchers.git',
     branch: 'rails-5'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.1'
+  gem 'email_spec', '~> 2.2'
 end
 
 group :development do
@@ -68,3 +69,4 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'devise', '~> 4.6', '>= 4.6.2'
