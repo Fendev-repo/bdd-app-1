@@ -24,6 +24,16 @@ require 'rspec/rails'
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
+
+module ControllerHelpers
+  def log_in(user)
+    warden = request.env['warden']
+
+    allow(warden).to receive(:authenticate!).and_return(user)
+    allow(controller).to receive(:current_user).and_return(user)
+  end
+end
+
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
@@ -70,14 +80,5 @@ RSpec.configure do |config|
       with.library :action_controller
       with.library :rails
     end
-  end
-end
-
-module ControllerHelpers
-  def log_in(user)
-    warden = request.env['warden']
-
-    allow(warden).to receive(:authenticate!).and_return(user)
-    allow(controller).to receive(:current_user).and_return(user)
   end
 end
